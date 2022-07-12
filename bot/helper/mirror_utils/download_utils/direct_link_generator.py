@@ -413,12 +413,11 @@ def gen_payload(data, boundary=f'{"-"*6}_'):
     data_string += f"{boundary}--\r\n"
     return data_string
 
-
 def parse_infou(data):
     info = re.findall(">(.*?)<\/li>", data)
     info_parsed = {}
     for item in info:
-    	kv = [s.strip() for s in item.split(":", maxsplit=1)]
+        kv = [s.strip() for s in item.split(":", maxsplit=1)]
         info_parsed[kv[0].lower()] = kv[1]
     return info_parsed
 
