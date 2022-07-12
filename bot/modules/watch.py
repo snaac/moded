@@ -20,6 +20,17 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
     user_id = message.from_user.id
     msg_id = message.message_id
 
+    try: bot.get_chat(user_id)
+    except Exception as e:
+        LOGGER.info(e)
+        buttons = button_build.ButtonMaker()
+        uname = message.from_user.mention_html(message.from_user.first_name)
+        botstart = f"http://t.me/{botname}"
+        buttons.buildbutton("Click Here to Start Me", f"{botstart}")
+        startwarn = f"Hey {uname},\n\n<b>I Found That You Haven't Started Me In PM Yet.</b>\n\n" \
+                    f"From Now I Will Send All Your Links And Files In Your PM"
+        return sendMarkup(startwarn, bot, message, InlineKeyboardMarkup(buttons.build_menu(1)))
+
     link = mssg.split()
     if len(link) > 1:
         link = link[1].strip()
