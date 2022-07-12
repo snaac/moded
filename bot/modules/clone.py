@@ -14,9 +14,20 @@ from bot import dispatcher, LOGGER, STOP_DUPLICATE, download_dict, download_dict
 from bot.helper.ext_utils.bot_utils import *
 from bot.helper.mirror_utils.download_utils.direct_link_generator import *
 from bot.helper.ext_utils.exceptions import DirectDownloadLinkException
+from bot.helper.telegram_helper.button_build import ButtonMaker
 
 
 def _clone(message, bot, multi=0):
+    try: bot.get_chat(message.from_user.id)
+    except Exception as e:
+        LOGGER.info(e)
+        uname = message.from_user.mention_html(message.from_user.first_name)
+        botstart = f"http://t.me/{botname}"
+        buttons.buildbutton("Click Here to Start Me", f"{botstart}")
+        startwarn = f"Hey {uname},\n\n<b>I Found That You Haven't Started Me In PM Yet.</b>\n\n" \
+                    f"From Now I Will Send All Your Links And Files In Your PM"
+        return sendMarkup(startwarn, bot, message, InlineKeyboardMarkup(buttons.build_menu(1)))
+
     elapsed_time = time()
     args = message.text.split(maxsplit=1)
     reply_to = message.reply_to_message
