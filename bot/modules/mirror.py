@@ -271,21 +271,20 @@ class MirrorListener:
         if not self.isPrivate and INCOMPLETE_TASK_NOTIFIER and DB_URI is not None:
             DbManger().rm_complete_task(self.message.link)
 
-def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=False, pswd=None, multi=0):
-	buttons = ButtonMaker()
+def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=False, pswd=None, multi=0)
     try:
         msg1 = f'Added your Requested link to Download\n'
         send = bot.sendMessage(message.from_user.id, text=msg1)
         send.delete()
     except Exception as e:
-        LOGGER.warning(e)
+        LOGGER.info(e)
+        buttons = ButtonMaker()
         uname = f'<a href="tg://user?id={message.from_user.id}">{message.from_user.first_name}</a>'
         botstart = f"http://t.me/{botname}"
         buttons.buildbutton("Click Here to Start Me", f"{botstart}")
         startwarn = f"Hey {uname},\n\n<b>I Found That You Haven't Started Me In PM Yet.</b>\n\n" \
                     f"From Now I Will Send All Your Links And Files In Your PM"
-        sendMarkup(startwarn, bot, message, InlineKeyboardMarkup(buttons.build_menu(2)))
-        return
+        return sendMarkup(startwarn, bot, message, InlineKeyboardMarkup(buttons.build_menu(1)))
 
     mesg = message.text.split('\n')
     message_args = mesg[0].split(maxsplit=1)
