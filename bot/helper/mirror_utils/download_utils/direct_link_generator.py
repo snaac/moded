@@ -420,7 +420,7 @@ def parse_infou(data):
     for item in info:
     	kv = [s.strip() for s in item.split(":", maxsplit=1)]
         info_parsed[kv[0].lower()] = kv[1]
-        return info_parsed
+    return info_parsed
 
 def unified(url: str) -> str:
     if (UNIFIED_EMAIL or UNIFIED_PASS) is None:
