@@ -91,7 +91,7 @@ class TgUploader:
                         width = 480
                         height = 320
                     if not file_.upper().endswith(("MKV", "MP4")):
-                        file_ = ospath.splitext(file_)[0] + '.mp4'
+                        file_ = f'{ospath.splitext(file_)[0]}.mp4'
                         new_path = ospath.join(dirpath, file_)
                         osrename(up_path, new_path)
                         up_path = new_path
@@ -106,7 +106,7 @@ class TgUploader:
                                                                   disable_notification=True,
                                                                   progress=self.__upload_progress)
                     if LOG_CHAT:
-                        self.__sent_msg.copy(LOG_CHAT)                                              
+                        self.__sent_msg.copy(LOG_CHAT)
                 elif file_.upper().endswith(AUDIO_SUFFIXES):
                     duration , artist, title = get_media_info(up_path)
                     self.__sent_msg = self.__sent_msg.reply_audio(audio=up_path,
@@ -119,7 +119,7 @@ class TgUploader:
                                                                   disable_notification=True,
                                                                   progress=self.__upload_progress)
                     if LOG_CHAT:
-                        self.__sent_msg.copy(LOG_CHAT)                                               
+                        self.__sent_msg.copy(LOG_CHAT)
                 elif file_.upper().endswith(IMAGE_SUFFIXES):
                     self.__sent_msg = self.__sent_msg.reply_photo(photo=up_path,
                                                                   quote=True,
@@ -127,7 +127,7 @@ class TgUploader:
                                                                   disable_notification=True,
                                                                   progress=self.__upload_progress)
                     if LOG_CHAT:
-                        self.__sent_msg.copy(LOG_CHAT)                                              
+                        self.__sent_msg.copy(LOG_CHAT)
                 else:
                     notMedia = True
             if self.__as_doc or notMedia:
@@ -144,7 +144,7 @@ class TgUploader:
                                                                  disable_notification=True,
                                                                  progress=self.__upload_progress)
                 if LOG_CHAT:
-                	self.__sent_msg.copy(LOG_CHAT)                                                  
+                	self.__sent_msg.copy(LOG_CHAT)
         except FloodWait as f:
             LOGGER.warning(str(f))
             sleep(f.value)

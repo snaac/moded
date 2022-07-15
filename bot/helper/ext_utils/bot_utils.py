@@ -153,7 +153,7 @@ def get_readable_message():
                 globals()['PAGE_NO'] -= 1           
             msg += f"<b>☠ Tᴏᴛᴀʟ Tᴀsᴋs →</b> {tasks}"
             msg += "\n \n"
-        for index, download in enumerate(list(download_dict.values())[COUNT:], start=1):            
+        for index, download in enumerate(list(download_dict.values())[COUNT:], start=1):    
             msg += f"<b>📂Fɪʟᴇɴᴀᴍᴇ→</b> <code>{escape(str(download.name()))}</code>"
             msg += f"\n<b>⌛️Sᴛᴀᴛᴜs→</b> <i>{download.status()}</i>"
             if download.status() not in [
@@ -185,8 +185,7 @@ def get_readable_message():
                 except:
                     pass
                 msg += f'\n<b>🤴Rᴇǫ Bʏ→</b> <a href="tg://user?id={download.message.from_user.id}">{download.message.from_user.first_name}</a>'
-                reply_to = download.message.reply_to_message    
-                if reply_to:
+                if reply_to := download.message.reply_to_message:
                     msg += f"\n<b>🔗Sᴏᴜʀᴄᴇ→<a href='https://t.me/c/{str(download.message.chat.id)[4:]}/{reply_to.message_id}'>Click Here</a></b>"
                 else:
                     msg += f"\n<b>🔗Sᴏᴜʀᴄᴇ→</b> <a href='https://t.me/c/{str(download.message.chat.id)[4:]}/{download.message.message_id}'>Click Here</a>"
@@ -207,7 +206,7 @@ def get_readable_message():
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
         bmsg = f"<b>🖥️CPU→</b> {cpu_percent()}%|<b>📦RAM→</b> {virtual_memory().percent}%"
-        
+
         buttons = ButtonMaker()
         buttons.sbutton("SᴛᴀᴛɪsᴛɪᴄS", "status stats")
         button = InlineKeyboardMarkup(buttons.build_menu(1))
@@ -256,7 +255,7 @@ def pop_up_stats():
     sent = get_readable_file_size(net_io_counters().bytes_sent)
     recv = get_readable_file_size(net_io_counters().bytes_recv)
     cpuUsage = cpu_percent(interval=0.5)
-    stats = f"""
+    return f"""
 
 CPU {cpuUsage}% | RAM:  {mem_p}%
 FREE: {mem_a} | TOTAL: {mem_t}
@@ -267,7 +266,6 @@ DOWNLOAD: {recv} | UPLOAD: {sent}
 
 MADE WITH 💞 BRUCE MIRROR'S
 """
-    return stats
 
 def get_readable_time(seconds: int) -> str:
     result = ''
@@ -301,9 +299,9 @@ def is_gdtot_link(url: str):
 def is_unified_link(url: str):
     url1 = re.match(r'https?://(anidrive|driveroot|driveflix|indidrive|drivehub)\.in/\S+', url)
     url = re.match(r'https?://(appdrive|driveapp|driveace|gdflix|drivelinks|drivebit|drivesharer|drivepro)\.\S+', url)
-    if bool(url1) == True:
+    if bool(url1):
         return bool(url1)
-    elif bool(url) == True:
+    elif bool(url):
         return bool(url)
     else:
         return False
@@ -311,9 +309,8 @@ def is_unified_link(url: str):
 def is_udrive_link(url: str):
     if 'drivehub.ws' in url:
         return 'drivehub.ws' in url
-    else:
-        url = re.match(r'https?://(hubdrive|katdrive|kolop|drivefire|drivebuzz)\.\S+', url)
-        return bool(url)
+    url = re.match(r'https?://(hubdrive|katdrive|kolop|drivefire|drivebuzz)\.\S+', url)
+    return bool(url)
     
 def is_sharer_link(url: str):
     url = re.match(r'https?://(sharer)\.pw/\S+', url)

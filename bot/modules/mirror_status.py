@@ -52,13 +52,11 @@ def status_button(update, context):
             query.answer()
         else:
             query.answer(text=f"{user_name}, You Don't Have Rights To Close This!", show_alert=True)
-    if data[1] == "pre" or "nex":
-        done = turn(data)
-        if done:
-            update_all_messages()
-            query.answer()
-        else:
-            msg.delete()
+    if done := turn(data):
+        update_all_messages()
+        query.answer()
+    else:
+        msg.delete()
 
 
 mirror_status_handler = CommandHandler(BotCommands.StatusCommand, mirror_status,
